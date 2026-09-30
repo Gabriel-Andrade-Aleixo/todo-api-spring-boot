@@ -12,6 +12,7 @@ Backend REST para gerenciamento de tarefas, desenvolvido como projeto avaliativo
 - Camadas de modelo, repositório, serviço e controlador.
 - Validação dos dados e respostas de erro padronizadas.
 - Testes unitários e testes de integração.
+- Interface web responsiva para usar todas as operações do CRUD.
 
 ## Tecnologias
 
@@ -67,7 +68,13 @@ O usuário padrão é `gabriel`. Caso ele não exista em outra instalação, def
 .\mvnw.cmd spring-boot:run
 ```
 
-A API estará disponível em `http://localhost:8080`.
+A interface estará disponível em `http://localhost:8080` e consumirá a API automaticamente.
+
+## Interface web
+
+A tela permite cadastrar, consultar, editar, concluir, reabrir e excluir tarefas. Também inclui busca por texto, filtros por status e contadores de acompanhamento. Foi implementada com HTML, CSS e JavaScript puros e é servida pelo próprio Spring Boot, sem dependências adicionais.
+
+A API permanece disponível em `http://localhost:8080/api/tarefas`.
 
 ## Endpoints
 

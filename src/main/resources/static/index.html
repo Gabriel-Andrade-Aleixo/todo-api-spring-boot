@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organizador simples de tarefas do dia a dia">
+    <title>Minha Rotina</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="page-shell">
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="Página inicial Minha Rotina">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                    <path d="M7 12.5l3.1 3.1L17.5 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span>Minha Rotina</span>
+        </a>
+        <p class="today" id="today"></p>
+    </header>
+
+    <main class="main-content">
+        <section class="hero" aria-labelledby="page-title">
+            <div>
+                <span class="eyebrow">Organize o seu dia</span>
+                <h1 id="page-title">Suas tarefas, sem complicação.</h1>
+                <p>Registre o que precisa ser feito, acompanhe o andamento e celebre cada conclusão.</p>
+            </div>
+            <button class="button button-primary hero-action" id="focus-form" type="button">
+                <span aria-hidden="true">＋</span> Nova tarefa
+            </button>
+        </section>
+
+        <section class="summary-grid" aria-label="Resumo das tarefas">
+            <article class="summary-card summary-total">
+                <span class="summary-icon" aria-hidden="true">☰</span>
+                <div><strong id="count-total">0</strong><span>Total</span></div>
+            </article>
+            <article class="summary-card summary-pending">
+                <span class="summary-icon" aria-hidden="true">○</span>
+                <div><strong id="count-pending">0</strong><span>Pendentes</span></div>
+            </article>
+            <article class="summary-card summary-progress">
+                <span class="summary-icon" aria-hidden="true">◷</span>
+                <div><strong id="count-progress">0</strong><span>Em andamento</span></div>
+            </article>
+            <article class="summary-card summary-done">
+                <span class="summary-icon" aria-hidden="true">✓</span>
+                <div><strong id="count-done">0</strong><span>Concluídas</span></div>
+            </article>
+        </section>
+
+        <div class="workspace">
+            <aside class="form-panel" aria-labelledby="form-title">
+                <div class="panel-heading">
+                    <div>
+                        <span class="eyebrow" id="form-eyebrow">Adicionar</span>
+                        <h2 id="form-title">Nova tarefa</h2>
+                    </div>
+                    <button class="icon-button close-edit hidden" id="cancel-edit" type="button" title="Cancelar edição" aria-label="Cancelar edição">×</button>
+                </div>
+
+                <form id="task-form" novalidate>
+                    <input id="task-id" type="hidden">
+                    <div class="field">
+                        <label for="nome">Nome da tarefa</label>
+                        <input id="nome" name="nome" type="text" maxlength="120" placeholder="Ex.: Fazer compras" required>
+                        <small class="field-error" id="error-nome"></small>
+                    </div>
+                    <div class="field">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao" name="descricao" rows="3" maxlength="1000" placeholder="O que precisa ser feito?" required></textarea>
+                        <small class="field-error" id="error-descricao"></small>
+                    </div>
+                    <div class="field">
+                        <label for="status">Status</label>
+                        <div class="select-wrap">
+                            <select id="status" name="status" required>
+                                <option value="PENDENTE">Pendente</option>
+                                <option value="EM_ANDAMENTO">Em andamento</option>
+                                <option value="CONCLUIDA">Concluída</option>
+                            </select>
+                        </div>
+                        <small class="field-error" id="error-status"></small>
+                    </div>
+                    <div class="field">
+                        <label for="observacoes">Observações <span>(opcional)</span></label>
+                        <textarea id="observacoes" name="observacoes" rows="2" maxlength="2000" placeholder="Algum detalhe importante?"></textarea>
+                        <small class="field-error" id="error-observacoes"></small>
+                    </div>
+                    <button class="button button-primary button-full" id="submit-button" type="submit">
+                        Salvar tarefa
+                    </button>
+                </form>
+            </aside>
+
+            <section class="tasks-panel" aria-labelledby="tasks-title">
+                <div class="tasks-heading">
+                    <div>
+                        <span class="eyebrow">Visão geral</span>
+                        <h2 id="tasks-title">Minhas tarefas</h2>
+                    </div>
+                    <button class="icon-button" id="refresh-button" type="button" title="Atualizar tarefas" aria-label="Atualizar tarefas">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6v5h-5M4 18v-5h5M18.5 9a7 7 0 0 0-12-2L4 11m16 2-2.5 4a7 7 0 0 1-12-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
+
+                <div class="toolbar">
+                    <label class="search-box" for="search">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        <input id="search" type="search" placeholder="Buscar tarefa...">
+                    </label>
+                    <div class="filters" role="group" aria-label="Filtrar por status">
+                        <button class="filter active" type="button" data-filter="TODAS">Todas</button>
+                        <button class="filter" type="button" data-filter="PENDENTE">Pendentes</button>
+                        <button class="filter" type="button" data-filter="EM_ANDAMENTO">Em andamento</button>
+                        <button class="filter" type="button" data-filter="CONCLUIDA">Concluídas</button>
+                    </div>
+                </div>
+
+                <div class="feedback hidden" id="feedback" role="status" aria-live="polite"></div>
+                <div class="task-list" id="task-list" aria-live="polite"></div>
+
+                <div class="empty-state hidden" id="empty-state">
+                    <span class="empty-illustration" aria-hidden="true">✓</span>
+                    <h3 id="empty-title">Tudo tranquilo por aqui</h3>
+                    <p id="empty-description">Crie sua primeira tarefa para começar a organizar o dia.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<template id="task-template">
+    <article class="task-card">
+        <button class="complete-button" type="button" title="Marcar como concluída" aria-label="Marcar como concluída">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 12 3.2 3.2L17.5 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="task-body">
+            <div class="task-title-row">
+                <h3 class="task-name"></h3>
+                <span class="status-badge"></span>
+            </div>
+            <p class="task-description"></p>
+            <p class="task-notes hidden"></p>
+            <div class="task-meta">
+                <span class="task-date"></span>
+            </div>
+        </div>
+        <div class="task-actions">
+            <button class="icon-button edit-button" type="button" title="Editar tarefa" aria-label="Editar tarefa">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5.5 4 4M5 19l2.8-.5L18 8.3a1.4 1.4 0 0 0 0-2l-.3-.3a1.4 1.4 0 0 0-2 0L5.5 16.2 5 19Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-button delete-button" type="button" title="Excluir tarefa" aria-label="Excluir tarefa">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M9 7V4h6v3m2 0-.7 13H7.7L7 7m3 4v5m4-5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+    </article>
+</template>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/js/app.js" defer></script>
+</body>
+</html>
