@@ -1,0 +1,3 @@
+CREATE DATABASE todo_db
+    WITH ENCODING = 'UTF8'
+    TEMPLATE = template0;
